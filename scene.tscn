@@ -1,0 +1,120 @@
+[gd_scene load_steps=17 format=3 uid="uid://djesya8pcmvj4"]
+
+[ext_resource type="Script" uid="uid://cuoelkqkamkjw" path="res://xr_origin_3d.gd" id="1_ulcgi"]
+[ext_resource type="Script" uid="uid://chldfjul2ieiv" path="res://left.gd" id="2_73fnb"]
+[ext_resource type="Material" uid="uid://cbiopta7ysae7" path="res://materials/green.tres" id="2_nxogm"]
+[ext_resource type="Script" uid="uid://nup0wxxbsafs" path="res://right.gd" id="3_5juve"]
+[ext_resource type="Material" uid="uid://doal5de686a0e" path="res://materials/box_blue.tres" id="3_73fnb"]
+[ext_resource type="Script" uid="uid://dads1h72aelnw" path="res://left_controller.gd" id="3_fy5k1"]
+[ext_resource type="Environment" uid="uid://b5m7r8v7j478b" path="res://materials/new_environment.tres" id="3_y2354"]
+[ext_resource type="AudioStream" uid="uid://854wq6m8c7nj" path="res://sounds/clash.mp3" id="4_5c1cw"]
+[ext_resource type="Material" uid="uid://dclrkndgcuqfc" path="res://materials/box_red.tres" id="5_5juve"]
+[ext_resource type="Script" uid="uid://ctc76w63afe5w" path="res://right_controller.gd" id="6_5c1cw"]
+[ext_resource type="Script" uid="uid://40co5jflhd1u" path="res://spawner_right.gd" id="6_ni31j"]
+[ext_resource type="Script" uid="uid://ceupaiu3op0oj" path="res://spawner.gd" id="9_fy5k1"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_y2354"]
+height = 1.0
+radius = 0.05
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ni31j"]
+height = 1.0
+radius = 0.05
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_u3cyc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_73fnb"]
+size = Vector3(100, 110, 1)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+script = ExtResource("1_ulcgi")
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Left" type="XRController3D" parent="XROrigin3D"]
+tracker = &"left_hand"
+script = ExtResource("2_73fnb")
+
+[node name="Node3D" type="Node3D" parent="XROrigin3D/Left"]
+
+[node name="Area3D" type="Area3D" parent="XROrigin3D/Left/Node3D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("3_fy5k1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/Left/Node3D/Area3D"]
+transform = Transform3D(1.91069e-15, -4.37114e-08, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, -4.37114e-08, 0, 0, -0.25)
+shape = SubResource("CylinderShape3D_y2354")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="XROrigin3D/Left/Node3D/Area3D"]
+stream = ExtResource("4_5c1cw")
+
+[node name="Blade" type="CSGCylinder3D" parent="XROrigin3D/Left/Node3D"]
+transform = Transform3D(1.91069e-15, -4.37114e-08, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, -4.37114e-08, 0, 0, -0.25)
+radius = 0.05
+height = 1.0
+material = ExtResource("3_73fnb")
+
+[node name="Right" type="XRController3D" parent="XROrigin3D"]
+tracker = &"right_hand"
+script = ExtResource("3_5juve")
+
+[node name="Node3D" type="Node3D" parent="XROrigin3D/Right"]
+
+[node name="Area3D" type="Area3D" parent="XROrigin3D/Right/Node3D"]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("6_5c1cw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/Right/Node3D/Area3D"]
+transform = Transform3D(1.91069e-15, -4.37114e-08, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, -4.37114e-08, 0, 0, -0.25)
+shape = SubResource("CylinderShape3D_ni31j")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="XROrigin3D/Right/Node3D/Area3D"]
+stream = ExtResource("4_5c1cw")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="XROrigin3D/Right"]
+transform = Transform3D(1.91069e-15, -4.37114e-08, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, -4.37114e-08, 0, 0, -0.25)
+radius = 0.05
+height = 1.0
+material = ExtResource("5_5juve")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("3_y2354")
+camera_attributes = SubResource("CameraAttributesPractical_u3cyc")
+
+[node name="Ground" type="CSGBox3D" parent="WorldEnvironment"]
+material_override = ExtResource("2_nxogm")
+size = Vector3(1000, 0.1, 1000)
+
+[node name="Light" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 60.923, 0)
+light_color = Color(0.277966, 0.496084, 1, 1)
+
+[node name="CSGBox3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 10)
+
+[node name="Right_spawner" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, 15)
+script = ExtResource("6_ni31j")
+
+[node name="Left_ spawner" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 15)
+script = ExtResource("9_fy5k1")
+
+[node name="Dissappearing_Wall" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+collision_layer = 6
+collision_mask = 6
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Dissappearing_Wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+shape = SubResource("BoxShape3D_73fnb")
+
+[connection signal="button_pressed" from="XROrigin3D/Left" to="XROrigin3D/Left" method="_on_button_pressed"]
+[connection signal="area_entered" from="XROrigin3D/Left/Node3D/Area3D" to="XROrigin3D/Left/Node3D/Area3D" method="_on_area_entered"]
+[connection signal="button_pressed" from="XROrigin3D/Right" to="XROrigin3D/Right" method="_on_button_pressed"]
+[connection signal="area_entered" from="XROrigin3D/Right/Node3D/Area3D" to="XROrigin3D/Right/Node3D/Area3D" method="_on_area_entered"]

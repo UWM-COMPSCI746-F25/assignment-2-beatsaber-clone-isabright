@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://yhdfofge6jo1"]
+
+[ext_resource type="Script" uid="uid://s5dl87s33f02" path="res://scenes/right_box_spawn.gd" id="1_arnwi"]
+[ext_resource type="Material" uid="uid://dclrkndgcuqfc" path="res://materials/box_red.tres" id="2_yiios"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_arnwi"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="RightBox" type="Node3D"]
+script = ExtResource("1_arnwi")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_arnwi")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Area3D"]
+size = Vector3(0.2, 0.2, 0.2)
+material = ExtResource("2_yiios")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
