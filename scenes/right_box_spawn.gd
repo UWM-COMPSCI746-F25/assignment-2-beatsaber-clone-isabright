@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var dir = Vector3(0,0,-1)
+@export var dir = Vector3(0,0,1)
 @export var speed = 2
 
 
